@@ -25,6 +25,6 @@ userSchema.methods = {
     getToken: function () {
         return jwt.encode(this, config.secret);
     }
-}
+};
 
 module.exports = mongoose.model('User', userSchema);
