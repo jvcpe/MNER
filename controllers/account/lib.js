@@ -11,7 +11,7 @@ function signup(req, res) {
         var user = {
             email: req.body.email,
             password: passwordHash.generate(req.body.password)
-        }
+        };
         var findUser = new Promise(function (resolve, reject) {
             User.findOne({
                 email: user.email
@@ -26,7 +26,7 @@ function signup(req, res) {
                     }
                 }
             })
-        })
+        });
 
         findUser.then(function () {
             var _u = new User(user);

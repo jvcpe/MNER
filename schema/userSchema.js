@@ -14,8 +14,8 @@ var userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
-},{ timestamps: { createdAt: 'created_at' }})
+    },
+},{ timestamps: { createdAt: 'created_at' }});
 
 
 userSchema.methods = {
