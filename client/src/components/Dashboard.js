@@ -19,6 +19,7 @@ import { Route, Link } from 'react-router-dom';
 
 import CreateLeague from './CreateLeague';
 import JoinLeague from './JoinLeague';
+import ViewLeague from './ViewLeague';
 
 
 const styles = theme => ({
@@ -41,6 +42,7 @@ const styles = theme => ({
 });
 
 class Dashboard extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -113,10 +115,7 @@ class Dashboard extends React.Component {
 
                 <Route path={`${this.props.match.path}/create`} component={CreateLeague} />
                 <Route path={`${this.props.match.path}/join`} component={JoinLeague} />
-                <Route
-                    exact
-                    path={this.props.match.path}
-                    render={() => <div>HOME</div>}
+                <Route exact path={this.props.match.path} component={ViewLeague}
                 />
             </div>
         );

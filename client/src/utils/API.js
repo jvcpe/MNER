@@ -1,12 +1,15 @@
 import axios from 'axios';
+
 const headers = {
-    'Content-Type': 'application/json'
-}
-const burl = "http://localhost:8000"
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+};
+
+const burl = "http://localhost:8000";
 
 export default {
     login : function(email,password) {
-        return axios.post(burl + '/user/login',{
+        return axios.post(burl + '/users/authenticate',{
             'email' : email,
             'password' : password
         },{
@@ -14,9 +17,19 @@ export default {
         })
     },
     signup : function(send){
-        return axios.post(burl + '/user/signup',send,{headers: headers})
+        return axios.post(burl + '/users/register',send,{headers: headers})
     },
-
+    getLeagues : function() {
+        return axios.post(burl + '/leagues/getAllUserLeagues',{
+            'id' : localStorage.getItem('user')
+        },{ headers })
+    },
+    createLeague : function(name) {
+        return axios.post(burl + '/leagues/create', {
+            'name' : name,
+            'creator' : localStorage.getItem('user'),
+        }, { headers })
+    },
     isAuth : function() {
         return (localStorage.getItem('token') !== null);
     },

@@ -1,7 +1,10 @@
 //Définition des modules
+require('rootpath')();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
+const jwt = require('_helpers/jwt');
+const errorHandler = require('_helpers/error-handler');
 
 //Database connection
 mongoose.connect('mongodb://localhost/db').then(() => {
@@ -14,7 +17,7 @@ mongoose.connect('mongodb://localhost/db').then(() => {
 const app = express();
 
 //Body Parser
-var urlencodedParser = bodyParser.urlencoded({
+const urlencodedParser = bodyParser.urlencoded({
     extended: true
 });
 app.use(urlencodedParser);
@@ -22,18 +25,25 @@ app.use(bodyParser.json());
 
 // CORS Definition
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,authorization');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
 
-//Router Definition
-var router = express.Router();
-app.use('/user', router);
-require(__dirname + '/controllers/userController')(router);
+// use JWT auth to secure the api
+app.use(jwt());
+
+// api routes
+app.use('/users', require('./users/user.controller'));
+app.use('/leagues', require('./league/league.controller'));
+
+// global error handler
+app.use(errorHandler);
 
 //Listening port
-var port = 8000;
-app.listen(port, () => console.log(`Listening on port ${port}`));
+const port = process.env.NODE_ENV === 'production' ? 80 : 8000;
+const server = app.listen(port, function () {
+    console.log('Server listening on port ' + port);
+});

@@ -41,12 +41,13 @@ class Login extends React.Component {
         }
         API.login(this.state.email, this.state.password).then(function(data){
             localStorage.setItem('token', data.data.token);
+            localStorage.setItem('user', data.data._id);
             window.location = "/dashboard"
         },function(error){
             console.log(error);
             return;
         })
-    }
+    };
 
     render() {
         const {classes} = this.props;
