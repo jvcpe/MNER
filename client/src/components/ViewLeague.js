@@ -7,11 +7,24 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
+
+import { Link } from 'react-router-dom'
 
 import API from "../utils/API";
 
 
-const styles = theme => ({});
+const styles = theme => ({
+    card : {
+        margin: '2%',
+    },
+    title : {
+        textAlign: 'center',
+    },
+    chip : {
+        textAlign: 'right',
+    },
+});
 
 class ViewLeague extends React.Component {
 
@@ -34,7 +47,7 @@ class ViewLeague extends React.Component {
 
         return (
             <div>
-                <p>HOME 2</p>
+                <h3 className={classes.title}>Leagues</h3>
                 { cards }
             </div>
         );
@@ -52,12 +65,10 @@ class ViewLeague extends React.Component {
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
-                        <Button size="small" color="primary">
+                        <Button component={Link} to={`/dashboard/${card._id}`} size="small" color="primary">
                             View
                         </Button>
-                        <Button size="small" color="primary">
-                            {card.state}
-                        </Button>
+                        <Chip label={card.state} className={classes.chip} />
                     </CardActions>
                 </Card>
             ))

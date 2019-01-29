@@ -3,16 +3,15 @@ const League = db.League;
 
 module.exports = {
     getAllUserLeagues,
-    create
+    create,
+    getLeagueById
 };
 
 async function getAllUserLeagues(leagueParam) {
-    console.log(leagueParam.id);
     return await League.find({user : leagueParam.id});
 }
 
 async function create(leagueParam) {
-    console.log("league service");
     const league = new League({
         name: leagueParam.name,
         creator: leagueParam.creator,
@@ -21,4 +20,8 @@ async function create(leagueParam) {
 
     // save league
     await league.save();
+}
+
+async function getLeagueById(id) {
+    return await League.findById(id);
 }

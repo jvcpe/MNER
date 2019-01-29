@@ -24,6 +24,9 @@ export default {
             'id' : localStorage.getItem('user')
         },{ headers })
     },
+    getLeagueDetail : function(id) {
+        return axios.get(burl + `/leagues/getLeagueById/${id}`,{ headers });
+    },
     createLeague : function(name) {
         return axios.post(burl + '/leagues/create', {
             'name' : name,

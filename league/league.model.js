@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var leagueSchema = mongoose.Schema({
+const leagueSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -22,5 +22,7 @@ var leagueSchema = mongoose.Schema({
         required: true,
     }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
+
+leagueSchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model('League', leagueSchema);

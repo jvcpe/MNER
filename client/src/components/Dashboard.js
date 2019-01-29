@@ -15,12 +15,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 
 import API from '../utils/API';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, Switch } from 'react-router-dom';
 
 import CreateLeague from './CreateLeague';
 import JoinLeague from './JoinLeague';
 import ViewLeague from './ViewLeague';
-
+import DetailledLeague from './DetailledLeague';
 
 const styles = theme => ({
     root: {
@@ -113,10 +113,12 @@ class Dashboard extends React.Component {
                     </Toolbar>
                 </AppBar>
 
-                <Route path={`${this.props.match.path}/create`} component={CreateLeague} />
-                <Route path={`${this.props.match.path}/join`} component={JoinLeague} />
-                <Route exact path={this.props.match.path} component={ViewLeague}
-                />
+                <Switch>
+                    <Route exact path={this.props.match.path} component={ViewLeague}/>
+                    <Route path={`${this.props.match.path}/create`} component={CreateLeague} />
+                    <Route path={`${this.props.match.path}/join`} component={JoinLeague} />
+                    <Route path={`${this.props.match.path}/:id`} component={DetailledLeague}/>
+                </Switch>
             </div>
         );
     }

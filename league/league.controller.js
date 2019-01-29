@@ -4,6 +4,7 @@ const leagueService = require('./league.service');
 
 // routes
 router.post('/getAllUserLeagues', getAllUserLeagues);
+router.get('/getLeagueById/:id', getLeagueById);
 router.post('/create', create);
 
 module.exports = router;
@@ -15,8 +16,13 @@ function getAllUserLeagues(req, res, next) {
 }
 
 function create(req, res, next) {
-    console.log('league controller');
     leagueService.create(req.body)
         .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function getLeagueById(req, res, next) {
+    leagueService.getLeagueById(req.params.id)
+        .then(league => league ? res.json(league) : res.sendStatus(404))
         .catch(err => next(err));
 }
