@@ -40,12 +40,11 @@ class Signup extends React.Component {
             return;
         }
         let _send = {
-            email: this.state.email,
-            password: this.state.password
+            'email': this.state.email,
+            'password': this.state.password
         };
         API.signup(_send).then(function(data){
-            localStorage.setItem('token', data.data.token);
-            window.location = "/dashboard"
+            window.location = "/"
         },function(error){
             console.log(error);
             return;

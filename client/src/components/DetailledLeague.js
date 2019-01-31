@@ -13,15 +13,19 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
+import {Link} from "react-router-dom";
 
 const styles = theme => ({
     root : {
         margin: '2%',
-        borderRadius: 5,
+        backgroundColor: theme.palette.primary.main,
     },
     center : {
         textAlign: 'center',
     },
+    listItem : {
+        backgroundColor: theme.palette.primary.dark,
+    }
 });
 
 class DetailledLeague extends React.Component {
@@ -52,13 +56,13 @@ class DetailledLeague extends React.Component {
     createPlayerList = (classes) => {
         if ( this.state.league.user && this.state.league.user.length > 0 ) {
             return this.state.league.user.map((player, index) => (
-                <ListItem color="primary" className={classes.listItem} key={index}>
+                <ListItem className={classes.listItem} color="primary" key={index}>
                     <ListItemIcon>
                         <BookmarkIcon/>
                     </ListItemIcon>
                     <ListItemText primary={player}/>
                     <ListItemSecondaryAction>
-                        <IconButton className={classes.button} aria-label="Profil"><AccountBoxIcon/></IconButton>
+                        <IconButton component={Link} to={`/dashboard/user/${player}`} className={classes.button} aria-label="Profil"><AccountBoxIcon/></IconButton>
                     </ListItemSecondaryAction>
                 </ListItem>
             ))
@@ -72,7 +76,8 @@ class DetailledLeague extends React.Component {
         return (
             <div>
                 <h3 className={classes.center}>League Detail</h3>
-                <h3 className={classes.center}>{this.state.league.name}</h3>
+                <h2 className={classes.center}>{this.state.league.name}</h2>
+                <h3 className={classes.center}>{this.state.league.state}</h3>
                 <List subheader={<ListSubheader>Players</ListSubheader>} className={classes.root} color="primary">
                     {this.createPlayerList(classes)}
                 </List>

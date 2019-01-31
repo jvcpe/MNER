@@ -13,13 +13,13 @@ module.exports = {
     _delete,
 };
 
-async function authenticate({ username, password }) {
-    const user = await User.findOne({ username });
+async function authenticate({ email, password }) {
+    const user = await User.findOne({ email });
     if (user && bcrypt.compareSync(password, user.hash)) {
         const { hash, ...userWithoutHash } = user.toObject();
         const token = jwt.sign({
             subject: user.id,
-            exp: Math.floor(Date.now() / 1000) + (30 * 60),
+            exp: Math.floor(Date.now() / 1000) + (180 * 60),
         }, config.secret);
         return {
             ...userWithoutHash,
@@ -38,8 +38,8 @@ async function getById(id) {
 
 async function create(userParam) {
     // validate
-    if (await User.findOne({ username: userParam.username })) {
-        throw 'Email "' + userParam.username + '" is already taken';
+    if (await User.findOne({ email: userParam.email })) {
+        throw 'Email "' + userParam.email + '" is already taken';
     }
 
     const user = new User(userParam);

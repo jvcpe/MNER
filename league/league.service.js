@@ -1,10 +1,12 @@
 const db = require('_helpers/db');
 const League = db.League;
+const User = db.User;
 
 module.exports = {
     getAllUserLeagues,
     create,
-    getLeagueById
+    getLeagueById,
+    joinLeague
 };
 
 async function getAllUserLeagues(leagueParam) {
@@ -24,4 +26,18 @@ async function create(leagueParam) {
 
 async function getLeagueById(id) {
     return await League.findById(id);
+}
+
+async function joinLeague(param) {
+    const league = await League.findById(param.league);
+    if ( !league ) {
+        throw "This code belong to no league"
+    }
+
+    if( !(await User.findById(param.user))) {
+        throw "This user do not exist"
+    }
+
+    league.user.push(param.user);
+    league.save();
 }

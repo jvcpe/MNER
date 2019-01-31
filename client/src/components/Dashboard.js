@@ -21,6 +21,7 @@ import CreateLeague from './CreateLeague';
 import JoinLeague from './JoinLeague';
 import ViewLeague from './ViewLeague';
 import DetailledLeague from './DetailledLeague';
+import UserProfil from './UserProfil';
 
 const styles = theme => ({
     root: {
@@ -115,6 +116,7 @@ class Dashboard extends React.Component {
 
                 <Switch>
                     <Route exact path={this.props.match.path} component={ViewLeague}/>
+                    <Route path={`${this.props.match.path}/user/:id`} component={UserProfil}/>
                     <Route path={`${this.props.match.path}/create`} component={CreateLeague} />
                     <Route path={`${this.props.match.path}/join`} component={JoinLeague} />
                     <Route path={`${this.props.match.path}/:id`} component={DetailledLeague}/>

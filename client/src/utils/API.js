@@ -19,6 +19,12 @@ export default {
     signup : function(send){
         return axios.post(burl + '/users/register',send,{headers: headers})
     },
+    joinLeague : function(send){
+        return axios.post(burl + '/leagues/joinLeague',send,{headers: headers})
+    },
+    getUserDetail : function(id) {
+        return axios.get(burl + `/users/getById/${id}`,{ headers });
+    },
     getLeagues : function() {
         return axios.post(burl + '/leagues/getAllUserLeagues',{
             'id' : localStorage.getItem('user')
