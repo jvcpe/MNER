@@ -6,7 +6,8 @@ module.exports = {
     getAllUserLeagues,
     create,
     getLeagueById,
-    joinLeague
+    joinLeague,
+    deleteUserFromLeague
 };
 
 async function getAllUserLeagues(leagueParam) {
@@ -39,5 +40,22 @@ async function joinLeague(param) {
     }
 
     league.user.push(param.user);
+    league.save();
+}
+
+async function deleteUserFromLeague(param) {
+    const league = await League.findById(param.leagueId);
+    if ( !league ) {
+        throw "This code belong to no league"
+    }
+
+    if( !(await User.findById(param.playerId))) {
+        throw "This user do not exist"
+    }
+
+    let index = league.user.indexOf(param.playerId);
+    if (index > -1) {
+        league.user.splice(index, 1);
+    }
     league.save();
 }

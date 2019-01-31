@@ -22,6 +22,7 @@ import JoinLeague from './JoinLeague';
 import ViewLeague from './ViewLeague';
 import DetailledLeague from './DetailledLeague';
 import UserProfil from './UserProfil';
+import Draft from './Draft';
 
 const styles = theme => ({
     root: {
@@ -86,6 +87,12 @@ class Dashboard extends React.Component {
                             <ListItemText primary="Join A League" />
                         </MenuItem>
                     </Link>
+                    <Link to={`${this.props.match.url}/draft`} style={{ textDecoration: 'none', display: 'block' }}>
+                        <MenuItem>
+                            <ListItemIcon><InboxIcon /></ListItemIcon>
+                            <ListItemText primary="Weekly Draft" />
+                        </MenuItem>
+                    </Link>
                 </MenuList>
             </div>
         );
@@ -118,6 +125,7 @@ class Dashboard extends React.Component {
                     <Route exact path={this.props.match.path} component={ViewLeague}/>
                     <Route path={`${this.props.match.path}/user/:id`} component={UserProfil}/>
                     <Route path={`${this.props.match.path}/create`} component={CreateLeague} />
+                    <Route path={`${this.props.match.path}/draft`} component={Draft} />
                     <Route path={`${this.props.match.path}/join`} component={JoinLeague} />
                     <Route path={`${this.props.match.path}/:id`} component={DetailledLeague}/>
                 </Switch>

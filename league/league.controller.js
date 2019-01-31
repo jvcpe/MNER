@@ -7,6 +7,7 @@ router.post('/getAllUserLeagues', getAllUserLeagues);
 router.get('/getLeagueById/:id', getLeagueById);
 router.post('/create', create);
 router.post('/joinLeague', joinLeague);
+router.post('/deleteUserFromLeague', deleteUserFromLeague);
 
 module.exports = router;
 
@@ -30,6 +31,12 @@ function getLeagueById(req, res, next) {
 
 function joinLeague(req, res, next) {
     leagueService.joinLeague(req.body)
+        .then(() => res.json())
+        .catch(err => next(err));
+}
+
+function deleteUserFromLeague(req, res, next) {
+    leagueService.deleteUserFromLeague(req.body)
         .then(() => res.json())
         .catch(err => next(err));
 }

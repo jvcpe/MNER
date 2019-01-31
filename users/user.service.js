@@ -41,6 +41,9 @@ async function create(userParam) {
     if (await User.findOne({ email: userParam.email })) {
         throw 'Email "' + userParam.email + '" is already taken';
     }
+    if (await User.findOne({ pseudo: userParam.pseudo })) {
+        throw 'Pseudo "' + userParam.pseudo + '" is already taken';
+    }
 
     const user = new User(userParam);
 

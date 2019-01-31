@@ -30,6 +30,12 @@ export default {
             'id' : localStorage.getItem('user')
         },{ headers })
     },
+    deleteUserFromLeague : function(leagueId, playerId) {
+        return axios.post(burl + '/leagues/deleteUserFromLeague',{
+            leagueId,
+            playerId
+        },{ headers })
+    },
     getLeagueDetail : function(id) {
         return axios.get(burl + `/leagues/getLeagueById/${id}`,{ headers });
     },

@@ -25,6 +25,7 @@ class Signup extends React.Component {
         super(props);
         this.state = {
             email : "",
+            pseudo : "",
             password: "",
             cpassword: ""
         };
@@ -33,14 +34,15 @@ class Signup extends React.Component {
     }
 
     send = event => {
-        if(this.state.email.length === 0){
+        if(this.state.email.length === 0 || this.state.pseudo.length === 0) {
             return;
         }
-        if(this.state.password.length === 0 || this.state.password !== this.state.cpassword){
+        if(this.state.password.length === 0 || this.state.password !== this.state.cpassword) {
             return;
         }
         let _send = {
             'email': this.state.email,
+            'pseudo': this.state.pseudo,
             'password': this.state.password
         };
         API.signup(_send).then(function(data){
@@ -68,6 +70,15 @@ class Signup extends React.Component {
                         label="email"
                         value={this.state.email}
                         onChange={this.handleChange('email')}
+                        className={classes.textField}
+                        margin="normal"
+                    />
+                    <TextField
+                        required
+                        id="pseudo"
+                        label="pseudo"
+                        value={this.state.pseudo}
+                        onChange={this.handleChange('pseudo')}
                         className={classes.textField}
                         margin="normal"
                     />

@@ -13,6 +13,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import IconButton from "@material-ui/core/es/IconButton/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 import {Link} from "react-router-dom";
 
 const styles = theme => ({
@@ -34,6 +35,7 @@ class DetailledLeague extends React.Component {
         super(props);
         this.state = {
             league : {},
+            selectedUser : [],
         };
     }
 
@@ -42,11 +44,60 @@ class DetailledLeague extends React.Component {
             .then(league => this.setState({ league : league.data}));
     }
 
-    displayCreatorMenu = () => {
+
+    send = event => {
+        if(this.state.league.selectedUser % 2) {
+            return;
+        }
+
+        let _send = {
+            'email': this.state.email,
+            'pseudo': this.state.pseudo,
+            'password': this.state.password
+        };
+        API.signup(_send).then(function(data){
+            window.location = "/"
+        },function(error){
+            console.log(error);
+            return;
+        })
+    };
+
+    deleteUser = playerId => {
+        API.deleteUserFromLeague(this.state.league._id, playerId)
+            .then(function(data){
+                let league = this.state.league;
+                let stateCopy = Object.assign({}, league);
+                let array = [...stateCopy.user];
+                let index = array.indexOf(playerId);
+                if (index !== -1) {
+                    stateCopy.user.splice(index, 1);
+                    this.setState({league: stateCopy});
+                }
+            },function(error){
+                console.log(error);
+                return;
+            })
+    };
+
+    displayCreatorMenu = (classes) => {
         if( this.state.league.creator === localStorage.getItem('user')) {
             return (
-                <div>
+                <div className={classes.center}>
                     <p> Vous etes le créateur de cette ligue !</p>
+                    <List subheader={<ListSubheader>Select player to start drafting</ListSubheader>} className={classes.root} color="primary">
+                        {this.state.league.user.map((player, index) => (
+                            <ListItem className={classes.listItem} color="primary" key={index}>
+                                <ListItemIcon>
+                                    <BookmarkIcon/>
+                                </ListItemIcon>
+                                <ListItemText primary={player}/>
+                                <ListItemSecondaryAction>
+                                    <IconButton onClick={() => this.deleteUser(player)} disabled={player === localStorage.getItem('user')} className={classes.button} aria-label="Profil"><DeleteIcon/></IconButton>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        ))}
+                    </List>
                     <Button> Start Draft !</Button>
                 </div>
             )
@@ -71,7 +122,7 @@ class DetailledLeague extends React.Component {
 
     render() {
         const {classes} = this.props;
-        const creatorMenu = this.displayCreatorMenu();
+        const creatorMenu = this.displayCreatorMenu(classes);
 
         return (
             <div>
