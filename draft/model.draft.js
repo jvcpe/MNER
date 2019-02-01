@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 var draftSchema = mongoose.Schema({
     state : {type: String, enum: ['not_started', 'in_progress', 'done'], required: true, default: 'not_started'},
+    userId : {type: mongoose.Schema.Types.ObjectId, ref : 'User', required: true, unique: true},
     draftedPlayer: [{
         type: mongoose.Schema.Types.ObjectId,
         ref : 'Player',

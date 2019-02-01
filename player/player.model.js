@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 var playerSchema = mongoose.Schema({
-    number: {
+    ID: {
         type: Number,
         required: true,
         unique: true,
@@ -10,30 +10,36 @@ var playerSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    photo: {
+        type: String,
+    },
     nationality: {
         type: String,
         required: true,
     },
+    nationality_flag: {
+        type: String,
+    },
     league: {
         type: String,
-        enum: ["ligue1", "liga", "premierleague", "bundesliga", "serie1"],
     },
     club: {
         type: String,
-        enum: ["om", "ol", "psg", "asse", "asm", "fcb", "fcn","sr","ogcn","mhsc","dfco","eag","asc","asco","rcsa","smc","losc","tfc","sdr","no"]
+    },
+    club_logo: {
+        type: String,
     },
     fav_position: {
         type: String,
-        enum: ["ST", "CF", "RF", "LF", "CM", "RM", "LM", "CAM", "CDM", "CB", "RB", "LB", "RWB", "LWB", "GK"],
+        enum: ["ST", "CF", "RF", "LF", "RW", "LW", "CM", "RM", "LM", "CAM", "CDM", "CB", "RB", "LB", "RWB", "LWB", "GK"],
         required: true,
     },
     position: [{
         type: String,
-        enum: ["ST", "CF", "RF", "LF", "CM", "RM", "LM", "CAM", "CDM", "CB", "RB", "LB", "RWB", "LWB", "GK"],
-        required: true,
+        enum: ["ST", "CF", "RF", "LF", "RW", "LW", "CM", "RM", "LM", "CAM", "CDM", "CB", "RB", "LB", "RWB", "LWB", "GK", ""],
     }]
 },{ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
-schema.set('toJSON', { virtuals: true });
+playerSchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model('Player', playerSchema);

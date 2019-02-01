@@ -18,15 +18,21 @@ class Draft extends React.Component {
     }
 
     componentDidMount() {
-        // call for drafts state
+        API.getDraftState().then(function(data){
+            console.log("success");
+        },function(error){
+            console.log(error);
+            return;
+        })
     }
 
     startDraft = event => {
         let _send = {
             'userId': localStorage.getItem('user')
         };
-        API.startDraft(_send).then(function(data){
-            // call for drafts state
+        API.startDraft().then(function(data){
+            console.log("success");
+            //update state
         },function(error){
             console.log(error);
             return;
@@ -34,11 +40,21 @@ class Draft extends React.Component {
     };
 
     selectPlayer = event => {
-        //select a player
+        API.selectPlayer(_send).then(function(data){
+            console.log("success");
+        },function(error){
+            console.log(error);
+            return;
+        })
     };
 
     nextDraw = event => {
-        //call next draw
+        API.getNextDraw().then(function(data){
+            console.log("success");
+        },function(error){
+            console.log(error);
+            return;
+        })
     };
 
     render() {

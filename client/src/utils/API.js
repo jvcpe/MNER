@@ -50,5 +50,8 @@ export default {
     },
     logout : function() {
         localStorage.clear();
+    },
+    importPlayer : function () {
+        return axios.post(burl + '/admin/importPlayer', {}, {headers});
     }
 }
