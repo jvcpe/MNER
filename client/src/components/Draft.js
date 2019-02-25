@@ -40,7 +40,7 @@ class Draft extends React.Component {
     };
 
     selectPlayer = event => {
-        API.selectPlayer(_send).then(function(data){
+        API.selectPlayer().then(function(data){
             console.log("success");
         },function(error){
             console.log(error);
