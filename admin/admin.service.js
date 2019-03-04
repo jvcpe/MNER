@@ -82,3 +82,7 @@ async function importPlayer() {
         }
     })()
 }
+
+async function importFormation() {
+    console.log("import formation");
+}

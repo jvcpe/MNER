@@ -53,5 +53,8 @@ export default {
     },
     importPlayer : function () {
         return axios.post(burl + '/admin/importPlayer', {}, {headers});
+    },
+    getDraftState : function (id) {
+        return axios.get(burl + `/drafts/getDraftState/${id}`, { headers });
     }
 }

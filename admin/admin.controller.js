@@ -12,3 +12,9 @@ function importPlayer(req, res, next) {
         .then(() => res.json({}))
         .catch(err => next(err));
 }
+
+function importFormation(req, res, next) {
+    adminService.importFormation(req.body)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
