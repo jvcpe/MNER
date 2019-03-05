@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
 const User = db.User;
+const Draft = db.Draft;
 
 module.exports = {
     authenticate,
@@ -53,9 +54,14 @@ async function create(userParam) {
     }
 
     // save user
-    await user.save();
+    await user.save((err, user) => {
+        if(!err) {
+            const draft = new Draft({userId: user._id});
+            draft.save();
+        }
+    });
 
-    
+
 }
 
 async function update(id, userParam) {

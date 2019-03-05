@@ -14,4 +14,6 @@ module.exports = {
     User: require('../users/user.model'),
     League : require('../league/league.model'),
     Player : require('../player/player.model'),
+    Draft : require('../draft/draft.model'),
+    Formation : require('../formation/formation.model'),
 };

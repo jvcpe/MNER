@@ -11,30 +11,36 @@ class Draft extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            draftState : 'not_started',
+            draftId : '',
+            draftState : '',
+            draftedFormation : {},
+            currentFormation : [{}],
             draftedPlayer : [],
             currentDraw: []
         };
     }
 
     componentDidMount() {
-        API.getDraftState().then(function(data){
-            console.log("success");
-        },function(error){
-            console.log(error);
-            return;
-        })
+        API.getDraftState(localStorage.getItem('user')).then(data => {
+            console.log(data.data);
+            this.setState({
+                draftId : data.data.id,
+                draftState : data.data.state,
+                draftedFormation : data.data.draftedFormation,
+                currentFormation : data.data.currentFormation,
+                draftedPlayer : data.data.draftedPlayer,
+                currentDraw : data.data.currentDraw,
+            });
+        });
     }
 
     startDraft = event => {
-        let _send = {
-            'userId': localStorage.getItem('user')
-        };
-        API.startDraft().then(function(data){
-            console.log("success");
-            //update state
+        API.startDraft(this.state.draftId).then(function(data){
+            console.log("[Draft] Draft started succesfully !");
+            console.log(data);
+            this.setState({status : 'in_progress', currentFormation : data.currentFormation});
         },function(error){
-            console.log(error);
+            console.log(`[Draft] Draft did not started succesfully ! Error : ${error}`);
             return;
         })
     };
@@ -71,7 +77,7 @@ class Draft extends React.Component {
         switch (this.state.draftState) {
             case 'not_started':
                 return (
-                    <Button>Start this week draft</Button>
+                    <Button onClick={this.startDraft}>Start this week draft</Button>
                 );
             case 'in_progress':
                 return (

@@ -16,6 +16,6 @@ var formationSchema = mongoose.Schema({
     }]],
 },{ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
 
-schema.set('toJSON', { virtuals: true });
+formationSchema.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model('Formation', formationSchema);

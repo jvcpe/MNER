@@ -51,10 +51,13 @@ export default {
     logout : function() {
         localStorage.clear();
     },
-    importPlayer : function () {
+    importPlayer : function() {
         return axios.post(burl + '/admin/importPlayer', {}, {headers});
     },
-    getDraftState : function (id) {
-        return axios.get(burl + `/drafts/getDraftState/${id}`, { headers });
+    getDraftState : function(id) {
+        return axios.get(burl + `/drafts/getDraftState/${id}`, {headers});
+    },
+    startDraft : function(draftId) {
+        return axios.post(burl + '/drafts/startDraft', {draftId}, {headers});
     }
 }

@@ -46,7 +46,7 @@ app.use(jwt());
 app.use('/users', require('./users/user.controller'));
 app.use('/leagues', require('./league/league.controller'));
 app.use('/admin', require('./admin/admin.controller'));
-app.use('/draft', require('./draft/draft.controller'));
+app.use('/drafts', require('./draft/draft.controller'));
 
 // global error handler
 app.use(errorHandler);
