@@ -59,5 +59,11 @@ export default {
     },
     startDraft : function(draftId) {
         return axios.post(burl + '/drafts/startDraft', {draftId}, {headers});
+    },
+    selectFormation : function (send) {
+        return axios.post(burl + '/drafts/selectFormation', send, {headers});
+    },
+    selectPlayer : function (send) {
+        return axios.post(burl + '/drafts/selectPlayer', send, {headers});
     }
 }

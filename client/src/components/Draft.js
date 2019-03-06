@@ -35,21 +35,42 @@ class Draft extends React.Component {
     }
 
     startDraft = event => {
-        API.startDraft(this.state.draftId).then(function(data){
+        API.startDraft(this.state.draftId).then(data => {
             console.log("[Draft] Draft started succesfully !");
             console.log(data);
-            this.setState({status : 'in_progress', currentFormation : data.currentFormation});
-        },function(error){
+            this.setState({draftState : 'in_progress', currentFormation : data.data.data});
+        },error => {
             console.log(`[Draft] Draft did not started succesfully ! Error : ${error}`);
             return;
         })
     };
 
-    selectPlayer = event => {
-        API.selectPlayer().then(function(data){
-            console.log("success");
-        },function(error){
-            console.log(error);
+    selectFormation(formation) {
+        const _send = {
+            draftId : this.state.draftId,
+            formationId : formation._id,
+        };
+        API.selectFormation(_send).then(data => {
+            console.log("[Draft] Formation chose successfully !");
+            console.log(data);
+            this.setState({draftedFormation : formation, currentFormation : []});
+        },error => {
+            console.log(`[Draft] Formation wasn't chose successfully ! Error : ${error}`);
+            return;
+        })
+    }
+
+    selectPlayer(position) {
+        const _send = {
+            draftId : this.state.draftId,
+            position,
+        };
+        API.selectPlayer(_send).then(data => {
+            console.log("[Draft] Player chose successfully !");
+            console.log(data);
+            this.setState({currentDraw : data.data.data});
+        },error => {
+            console.log(`[Draft] Player wasn't chose successfully ! Error : ${error}`);
             return;
         })
     };
@@ -81,11 +102,23 @@ class Draft extends React.Component {
                 );
             case 'in_progress':
                 return (
-                    {displayInProgressDraft}
+                    <div>
+                        <p> Draft is in progress </p>
+                        { this.state.currentFormation &&
+                        <div>
+                            {this.state.currentFormation.map(formation => <button onClick={() => this.selectFormation(formation)} key={formation.name}>{formation.name}</button>)}
+                        </div>}
+                        { this.state.draftedFormation &&
+                         <div>
+                             <p>You choice : {this.state.draftedFormation.name}</p>
+                             {this.state.draftedFormation.position.map((position, idx) => <div><p>{position}</p><button key={idx} onClick={() => this.selectPlayer(position)}>Draft</button></div>)}
+                         </div>
+                        }
+                    </div>
                 );
             case 'done':
                 return (
-                    {displayDoneDraft}
+                    <p> Draft is done </p>
                 );
             default:
                 return (

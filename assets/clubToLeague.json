@@ -1,6 +1,27 @@
 {
   "Seria A": ["Juventus"],
   "Liga": ["FC Barcelona", "Real Madrid", "Atlético Madrid"],
-  "Ligue 1": ["Paris Saint-Germain"],
+  "Ligue 1": [
+    "Paris Saint-Germain",
+    "Olympique Lyonnais",
+    "Olympique de Marseille",
+    "AS Saint-Étienne",
+    "AS Monaco",
+    "OGC Nice",
+    "Stade Rennais FC",
+    "FC Nantes",
+    "Toulouse Football Club",
+    "FC Girondins de Bordeaux",
+    "RC Strasbourg Alsace",
+    "Amiens SC",
+    "Montpellier HSC",
+    "En Avant de Guingamp",
+    "Stade Malherbe Caen",
+    "Angers SCO",
+    "LOSC Lille",
+    "Dijon FCO",
+    "Nîmes Olympique",
+    "Stade de Reims"
+  ],
   "Premier League": ["Liverpool", "Manchester United", "Manchester City", "Chelsea" ]
 }
