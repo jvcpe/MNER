@@ -92,6 +92,7 @@ async function drawPlayer(param) {
             throw "[Draft]Error while selecting draft.";
         }
         league = draft.league;
+        //draftedPlayer = draft.draftedPlayer;
     });
 
     let currentPlayer = [];
@@ -135,6 +136,7 @@ async function selectPlayer(param) {
             throw "[Draft]Error while selecting player.";
         }
         console.log("[Draft] Player selection done");
+        console.log("updated selected player : " + update);
         if(update.draftedPlayer.length === constants.NUMBER_OF_DRAFTED_PLAYER) {
             Draft.findByIdAndUpdate({_id : update._id}, {state : 'done'}, (err, update) => {
                 if(err) {

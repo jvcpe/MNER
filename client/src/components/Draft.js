@@ -117,15 +117,6 @@ class Draft extends React.Component {
         this.setState({ playerChoiceInProgress: false });
     };
 
-    nextDraw = event => {
-        API.getNextDraw().then(function(data){
-            console.log("success");
-        },function(error){
-            console.log(error);
-            return;
-        })
-    };
-
     render() {
         const {classes} = this.props;
 
@@ -193,7 +184,6 @@ class Draft extends React.Component {
                                          )
                                      })}
                                  </List>
-                                 {this.state.draftedPlayer.map((player, idx) => <div key={idx}>{player.name}</div>)}
                              </div>
                          </div>
                         }
