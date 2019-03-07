@@ -11,6 +11,7 @@ module.exports = {
     createDraft,
     startDraft,
     selectFormation,
+    drawPlayer,
     selectPlayer,
 };
 
@@ -46,7 +47,7 @@ async function startDraft(param) {
 
     for (let i = 0; i < constants.NUMBER_OF_FORMATION; i++) {
         console.log("currentFormationId : " + currentFormationId);
-        let result = await Formation.aggregate([{$sample: {size: 1}}, { $match: {"_id": {"$nin": currentFormationId}}}]);
+        let result = await Formation.aggregate([{ $match: {"_id": {"$nin": currentFormationId}}}, {$sample: {size: 1}}]);
         console.log("result : " + JSON.stringify(result));
         if(result) {
             currentFormation.push(result[0]);
@@ -83,8 +84,7 @@ async function selectFormation(param) {
     });
 }
 
-async function selectPlayer(param) {
-    console.log("Position : " + param.position);
+async function drawPlayer(param) {
     let league = "";
     const draft = await Draft.findById({_id : param.draftId}, (err, draft) => {
         if(err) {
@@ -99,8 +99,7 @@ async function selectPlayer(param) {
     console.log("League : " + league);
     for (let i = 0; i < constants.NUMBER_OF_PLAYER; i++) {
         console.log("currentPlayerId : " + currentPlayerId);
-        //let result = await Player.aggregate([{$sample: {size: 1}}, { $match: { $and: [{"_id": {"$nin": currentPlayerId}}, {"league" : league}, {$or: [{"fav_position" : param.position}, {"position" : param.position}]}]}}]);
-        let result = await Player.aggregate([{$sample: {size: 1}}, { $match: { $and: [{_id: {$nin: currentPlayerId}}, {league : league}]}}]);
+        let result = await Player.aggregate([{ $match: { $and: [{"_id": {"$nin": currentPlayerId}}, {"league" : league}, {$or: [{"fav_position" : param.position}, {"position" : param.position}]}]}}, {$sample: {size: 1}}]);
         console.log("result : " + JSON.stringify(result));
         if(result.length !== 0) {
             currentPlayer.push(result[0]);
@@ -124,4 +123,26 @@ async function selectPlayer(param) {
         console.log("[Draft] Update done");
     });
     return {data : currentPlayer};
+}
+
+async function selectPlayer(param) {
+    console.log("select player");
+    console.log("param player id : " + param.playerId);
+    await Draft.findByIdAndUpdate({_id : param.draftId},  { currentDraw : [], $push: { draftedPlayer : param.playerId } }, {new: true},(err, update) => {
+        console.log("updated selected player : " + update);
+        if(err) {
+            console.log("[Draft] Error while selecting player.");
+            throw "[Draft]Error while selecting player.";
+        }
+        console.log("[Draft] Player selection done");
+        if(update.draftedPlayer.length === constants.NUMBER_OF_DRAFTED_PLAYER) {
+            Draft.findByIdAndUpdate({_id : update._id}, {state : 'done'}, (err, update) => {
+                if(err) {
+                    console.log("[Draft] Error while closing draft.");
+                    throw "[Draft] Error while closing draft.";
+                }
+                console.log("[Draft] Draft done");
+            });
+        }
+    });
 }

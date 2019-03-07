@@ -63,6 +63,9 @@ export default {
     selectFormation : function (send) {
         return axios.post(burl + '/drafts/selectFormation', send, {headers});
     },
+    drawPlayer : function (send) {
+        return axios.post(burl + '/drafts/drawPlayer', send, {headers});
+    },
     selectPlayer : function (send) {
         return axios.post(burl + '/drafts/selectPlayer', send, {headers});
     }

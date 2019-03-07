@@ -6,6 +6,7 @@ const draftService = require('./draft.service');
 router.get('/getDraftState/:id', getDraftByUserId);
 router.post('/startDraft', startDraft);
 router.post('/selectFormation', selectFormation);
+router.post('/drawPlayer', drawPlayer);
 router.post('/selectPlayer', selectPlayer);
 
 module.exports = router;
@@ -28,8 +29,14 @@ function selectFormation(req, res, next) {
         .catch(err => next(err));
 }
 
+function drawPlayer(req, res, next) {
+    draftService.drawPlayer(req.body)
+        .then(players => res.json(players))
+        .catch(err => next(err));
+}
+
 function selectPlayer(req, res, next) {
     draftService.selectPlayer(req.body)
-        .then(players => res.json(players))
+        .then(() => res.json())
         .catch(err => next(err));
 }
