@@ -2,6 +2,7 @@ const db = require('_helpers/db');
 const Draft = db.Draft;
 const Formation = db.Formation;
 const Player = db.Player;
+const Team = db.Team;
 const constants = require('../constants/constants');
 const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
@@ -129,7 +130,7 @@ async function drawPlayer(param) {
 async function selectPlayer(param) {
     console.log("select player");
     console.log("param player id : " + param.playerId);
-    await Draft.findByIdAndUpdate({_id : param.draftId},  { currentDraw : [], $push: { draftedPlayer : param.playerId } }, {new: true},(err, update) => {
+    Draft.findByIdAndUpdate({_id : param.draftId},  { currentDraw : [], $push: { draftedPlayer : param.playerId } }, {new: true},(err, update) => {
         console.log("updated selected player : " + update);
         if(err) {
             console.log("[Draft] Error while selecting player.");
@@ -145,6 +146,14 @@ async function selectPlayer(param) {
                 }
                 console.log("[Draft] Draft done");
             });
+
+            const team = new Team({
+                userId: update.userId,
+                formation: update.draftedFormation,
+                players: update.draftedPlayer,
+            });
+
+            team.save();
         }
     });
 }

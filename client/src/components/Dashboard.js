@@ -24,6 +24,7 @@ import DetailledLeague from './DetailledLeague';
 import UserProfil from './UserProfil';
 import Draft from './Draft';
 import Admin from './Admin';
+import Team from './Team';
 
 const styles = theme => ({
     root: {
@@ -76,6 +77,12 @@ class Dashboard extends React.Component {
                             <ListItemText primary="Home" />
                         </MenuItem>
                     </Link>
+                    <Link to={`${this.props.match.url}/team`} style={{ textDecoration: 'none', display: 'block' }}>
+                        <MenuItem>
+                            <ListItemIcon><InboxIcon /></ListItemIcon>
+                            <ListItemText primary="Team" />
+                        </MenuItem>
+                    </Link>
                     <Link to={`${this.props.match.url}/create`} style={{ textDecoration: 'none', display: 'block' }}>
                         <MenuItem>
                             <ListItemIcon><InboxIcon /></ListItemIcon>
@@ -116,7 +123,7 @@ class Dashboard extends React.Component {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" color="inherit" className={classes.grow}>
-                            DraftDesIdiots
+                            DrafTeam
                         </Typography>
                         <Button onClick={this.disconnect} color="inherit">Logout</Button>
                     </Toolbar>
@@ -127,6 +134,7 @@ class Dashboard extends React.Component {
                     <Route path={`${this.props.match.path}/user/:id`} component={UserProfil}/>
                     <Route path={`${this.props.match.path}/create`} component={CreateLeague} />
                     <Route path={`${this.props.match.path}/draft`} component={Draft} />
+                    <Route path={`${this.props.match.path}/team`} component={Team} />
                     <Route path={`${this.props.match.path}/admin`} component={Admin} />
                     <Route path={`${this.props.match.path}/join`} component={JoinLeague} />
                     <Route path={`${this.props.match.path}/:id`} component={DetailledLeague}/>

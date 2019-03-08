@@ -68,5 +68,8 @@ export default {
     },
     selectPlayer : function (send) {
         return axios.post(burl + '/drafts/selectPlayer', send, {headers});
+    },
+    getTeam : function (userId) {
+        return axios.get(burl + `/team/getTeam/${userId}`, {headers});
     }
 }
