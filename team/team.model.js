@@ -5,8 +5,14 @@ var teamSchema = mongoose.Schema({
     formation: {
         type: mongoose.Schema.Types.ObjectId,
         ref : 'Formation',
+        required : true,
     },
     players: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref : 'Player',
+        required : true,
+    }],
+    team: [{
         type: mongoose.Schema.Types.ObjectId,
         ref : 'Player',
     }],

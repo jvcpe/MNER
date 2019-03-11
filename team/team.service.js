@@ -8,7 +8,7 @@ module.exports = {
 };
 
 async function getTeam(userId) {
-    return await Team.find({userId});
+    return await Team.find({userId}).populate('players').populate('formation');
 }
 
 async function _delete(id) {

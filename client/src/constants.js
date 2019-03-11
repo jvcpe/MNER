@@ -1,3 +1,4 @@
 module.exports = {
     NUMBER_OF_DRAFTED_PLAYER : 30,
+    NUMBER_OF_SUBSTITUTE_IN_TEAM : 7,
 };

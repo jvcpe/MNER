@@ -147,13 +147,27 @@ async function selectPlayer(param) {
                 console.log("[Draft] Draft done");
             });
 
-            const team = new Team({
-                userId: update.userId,
-                formation: update.draftedFormation,
-                players: update.draftedPlayer,
-            });
+            Player.find({ID : 204819}, (err, player) => {
+                if(err) {
+                    console.log("[Draft] Error while creating team.");
+                    throw "[Draft] Error while creating team.";
+                }
 
-            team.save();
+                let defaultTeam = [];
+
+                for(let i = 0; i < constants.NUMBER_OF_PLAYER_IN_TEAM; i++) {
+                    defaultTeam.push(player[0]._id);
+                }
+
+                const team = new Team({
+                    userId: update.userId,
+                    formation: update.draftedFormation,
+                    players: update.draftedPlayer,
+                    team : defaultTeam,
+                });
+
+                team.save();
+            });
         }
     });
 }
