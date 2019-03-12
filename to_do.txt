@@ -1,0 +1,4 @@
+Lors de l'échange de joueur dans la création d'équipe, un joueur peut être placé à une position qu'il n'occupe pas
+=> marquer la cellule des joueurs qui occupe un poste interdit en rouge et prevenir de la sauvegarde de l'equipe OU malus
+
+Quand le token expire => redirect vers la page de connexion

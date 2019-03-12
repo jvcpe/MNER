@@ -40,9 +40,10 @@ class Team extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            team : {
-                team : [],
-            },
+            id : "",
+            team : [],
+            formation : {},
+            players : [],
             positionList : [],
         };
     }
@@ -54,7 +55,20 @@ class Team extends React.Component {
             for(let i = 0; i < constants.NUMBER_OF_SUBSTITUTE_IN_TEAM; i++) {
                 positionList.push(`R${i+1}`);
             }
-            this.setState({team : data.data[0], positionList});
+
+            data.data[0].players.forEach(player => {
+                if(player.position[0] === "") {
+                    player.position[0] = player.fav_position;
+                }
+            });
+
+            this.setState({
+                team : data.data[0].team,
+                formation : data.data[0].formation,
+                players : data.data[0].players,
+                id : data.data[0].id,
+                positionList
+            });
         },error => {
             console.log(`[Team] Team wasn't retrieved successfully ! Error : ${error}`);
             return;
@@ -62,8 +76,17 @@ class Team extends React.Component {
     }
 
     handleChange = (idx, event) => {
-        let 
-        this.setState({ team: event.target.value });
+        let updatedTeam = this.state.team;
+        if(updatedTeam.indexOf(event.target.value) !== -1) {
+            console.log("here");
+            const index = updatedTeam.indexOf(event.target.value);
+            if (updatedTeam[idx].fav_position && updatedTeam[idx].position !== this.state.positionList[index]) {
+                console.log("The player replaced can't match the position of the replacer player");
+            }
+            updatedTeam[index] = updatedTeam[idx];
+        }
+        updatedTeam[idx] = event.target.value;
+        this.setState({ team: updatedTeam });
     };
 
     render() {
@@ -84,18 +107,18 @@ class Team extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.team.team.map((player, idx) => (
+                            {this.state.team.map((player, idx) => (
                                 <TableRow key={idx}>
                                     <TableCell className={classes.position} component="th" scope="row">
                                         {this.state.positionList[idx]}
                                     </TableCell>
                                     <TableCell>
-                                        <Select className={classes.select} value={this.state.team.team[idx]} onChange={() => this.handleChange(idx)} inputProps={{placeholder: 'Select a player ...', name: 'player'}}>
-                                            {suggestedPlayer(this.state.team.players, this.state.positionList[idx]).map(player => <MenuItem value={player}>{player.name}</MenuItem>)}
+                                        <Select className={classes.select} value={this.state.team[idx]} onChange={(e) => this.handleChange(idx, e)} inputProps={{placeholder: 'Select a player ...', name: 'player'}}>
+                                            {suggestedPlayer(this.state.players, this.state.positionList[idx]).map(player => <MenuItem value={player}>{player.name}</MenuItem>)}
                                         </Select>
                                     </TableCell>
-                                    <TableCell>INFO</TableCell>
-                                    <TableCell>COLLECTIF</TableCell>
+                                    <TableCell><img src={player.club_logo} alt="player"/></TableCell>
+                                    <TableCell>{player.fav_position === this.state.positionList[idx] ? "YES" : "NO"}</TableCell>
                                     <TableCell align="right">CHEMISTRY</TableCell>
                                 </TableRow>
                             ))}
@@ -108,12 +131,11 @@ class Team extends React.Component {
 }
 
 function suggestedPlayer(list, position) {
-    if(position.charAt(1) === "^[0-9]*$") {
-        console.log('test');
+    if(RegExp('^[0-9]*$').test(position.charAt(1))) {
         return list;
     }
 
-    return list.filter(player => (player.fav_position || player.position) === position);
+    return list.filter(player => player.fav_position === position || player.position.includes(position));
 }
 
 export default withStyles(styles)(Team);
