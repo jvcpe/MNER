@@ -89,8 +89,8 @@ async function drawPlayer(param) {
     let league = "";
     const draft = await Draft.findById({_id : param.draftId}, (err, draft) => {
         if(err) {
-            console.log("[Draft] Error while selecting draft.");
-            throw "[Draft]Error while selecting draft.";
+            console.log("[Draft] Error while drawing players.");
+            throw "[Draft] Error while drawing players.";
         }
         league = draft.league;
         //draftedPlayer = draft.draftedPlayer;

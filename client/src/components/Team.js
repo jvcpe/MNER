@@ -30,6 +30,13 @@ const styles = theme => ({
     position: {
         width: 30,
     },
+    positionColor: {
+        backgroundColor: 'cyan',
+        borderRadius: '10px',
+        height: '25px',
+        textAlign: 'center',
+        fontSize: '20px',
+    },
     select: {
         width: 400,
     }
@@ -110,7 +117,7 @@ class Team extends React.Component {
                             {this.state.team.map((player, idx) => (
                                 <TableRow key={idx}>
                                     <TableCell className={classes.position} component="th" scope="row">
-                                        {this.state.positionList[idx]}
+                                        <div className={classes.positionColor}>{this.state.positionList[idx]}</div>
                                     </TableCell>
                                     <TableCell>
                                         <Select className={classes.select} value={this.state.team[idx]} onChange={(e) => this.handleChange(idx, e)} inputProps={{placeholder: 'Select a player ...', name: 'player'}}>
